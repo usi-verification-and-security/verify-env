@@ -1,0 +1,27 @@
+FROM cimg/base:current
+
+RUN sudo apt-get update \
+    && sudo apt-get install -y \
+        bison \
+        clang \
+        clang-format \
+        cmake \
+        flex \
+        libedit-dev \
+        libgmp-dev \
+        opam \
+    && sudo rm -rf /var/lib/apt/lists/*
+
+RUN opam init -y --disable-sandboxing \
+    && opam update -y \
+    && opam upgrade -y
+
+RUN git clone --single-branch https://github.com/Gbury/dolmen.git \
+    && cd dolmen \
+    && opam pin add -y . \
+    && opam install -y --deps-only . \
+    && eval $(opam env) \
+    && make \
+    && cd .. \
+    && rm -rf dolmen
+
