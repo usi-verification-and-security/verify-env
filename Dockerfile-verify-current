@@ -25,3 +25,10 @@ RUN git clone --single-branch https://github.com/Gbury/dolmen.git \
     && cd .. \
     && rm -rf dolmen
 
+RUN git clone --single-branch https://github.com/SMT-COMP/scrambler.git \
+    && cd scrambler \
+    && make \
+    && sudo install scrambler /usr/local/bin \
+    && cd .. \
+    && rm -rf scrambler
+
