@@ -1,0 +1,52 @@
+FROM centos:7
+
+RUN \
+    yum -y install bison \
+    && yum -y install bzip2 \
+    && yum -y install centos-release-scl \
+    && yum -y install Cython \
+    && yum -y install devtoolset-8 \
+    && yum -y install git \
+    && yum -y install glibc-static \
+    && yum -y install gmp-devel \
+    && yum -y install gmp-static \
+    && yum -y install libedit-devel \
+    && yum -y install libstdc++-static \
+    && yum -y install patch \
+    && yum -y install python3-pip \
+    && yum -y install rh-python38 \
+    && yum -y install wget \
+    && yum -y install zlib-devel \
+    && pip3 install --upgrade pip \
+    && pip3 install wheel \
+    && echo "pip3 install pyinstaller" |scl enable devtoolset-8 bash
+
+RUN pip3 install cmake
+
+ENV FLEX_VERSION=2.6.4
+
+RUN wget --no-verbose "https://github.com/westes/flex/files/981163/flex-${FLEX_VERSION}.tar.gz" \
+    && tar -xvzf flex-${FLEX_VERSION}.tar.gz \
+    && cd flex-${FLEX_VERSION} \
+    && echo "./configure --prefix=/usr/local; make -j4; make install" | scl enable devtoolset-8 bash \
+    && cd .. \
+    && rm -rf flex-${FLEX_VERSION} \
+    && rm flex-${FLEX_VERSION}.tar.gz
+
+RUN echo "git clone --single-branch https://github.com/SMT-COMP/scrambler.git \
+        && cd scrambler \
+        && make" | scl enable devtoolset-8 bash \
+    && install ./scrambler/scrambler /usr/local/bin \
+    && rm -rf scrambler
+
+COPY pySMT-config pySMT-config
+
+RUN mkdir ModelValidator \
+    && cd ModelValidator \
+    && pip3 install -r ../pySMT-config/requirements.txt \
+    && pyinstaller -F ../pySMT-config/ModelValidator.py \
+    && install dist/ModelValidator /usr/local/bin \
+    && cd .. \
+    && rm -rf ModelValidator \
+    && rm -rf pySMT-config
+
