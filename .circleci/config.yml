@@ -18,7 +18,7 @@ jobs:
                   name: publish current
                   command: |
                       echo $VERIFY_DOCKERHUB_PW |docker login -u verifyusi --password-stdin
-                      echo "docker push verifyusi/verify-env:current"
+                      docker push verifyusi/verify-env:current
 
     build-starexec:
         docker:
@@ -37,7 +37,7 @@ jobs:
                   name: publish starexec
                   command: |
                       echo $VERIFY_DOCKERHUB_PW |docker login -u verifyusi --password-stdin
-                      echo "docker push verifyusi/verify-env:starexec"
+                      docker push verifyusi/verify-env:starexec
 
 workflows:
     build-test:
