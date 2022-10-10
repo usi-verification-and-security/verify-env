@@ -4,7 +4,7 @@ jobs:
         docker:
             - image: cimg/base:current
               auth:
-                  username: verifyusi
+                  username: $VERIFY_DOCKERHUB_USER
                   password: $VERIFY_DOCKERHUB_PW
         steps:
             - checkout
@@ -13,18 +13,18 @@ jobs:
             - run:
                   name: Build current
                   command: |
-                      DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-current --rm -t verifyusi/verify-env:current .
+                      DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-current --rm -t usiverify/verify-env:current .
             - run:
                   name: publish current
                   command: |
-                      echo $VERIFY_DOCKERHUB_PW |docker login -u verifyusi --password-stdin
-                      docker push verifyusi/verify-env:current
+                      echo $VERIFY_DOCKERHUB_PW |docker login -u $VERIFY_DOCKERHUB_USER --password-stdin
+                      docker push usiverify/verify-env:current
 
     build-starexec:
         docker:
             - image: cimg/base:current
               auth:
-                  username: verifyusi
+                  username: $VERIFY_DOCKERHUB_USER
                   password: $VERIFY_DOCKERHUB_PW
         steps:
             - checkout
@@ -32,12 +32,12 @@ jobs:
                 docker_layer_caching: true
             - run:
                   name: build starexec
-                  command: DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-starexec --rm -t verifyusi/verify-env:starexec .
+                  command: DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-starexec --rm -t usiverify/verify-env:starexec .
             - run:
                   name: publish starexec
                   command: |
-                      echo $VERIFY_DOCKERHUB_PW |docker login -u verifyusi --password-stdin
-                      docker push verifyusi/verify-env:starexec
+                      echo $VERIFY_DOCKERHUB_PW |docker login -u $VERIFY_DOCKERHUB_USER --password-stdin
+                      docker push usiverify/verify-env:starexec
 
 workflows:
     build-test:

@@ -7,23 +7,23 @@ Docker files for building USI verification group CI images
 To compile:
 
 ```
-DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-current --rm -t verifyusi/verify-env:current .
+DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-current --rm -t usiverify/verify-env:current .
 ```
 
 To publish:
 ```
-docker push verifyusi/verify-env:current
+docker push usiverify/verify-env:current
 ```
 
 ## Starexec
 
 To compile:
 ```
-DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-starexec --rm -t verifyusi/verify-env:starexec .
+DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-starexec --rm -t usiverify/verify-env:starexec .
 ```
 
 To publish:
 ```
-docker push verifyusi/verify-env:starexec
+docker push usiverify/verify-env:starexec
 ```
 
