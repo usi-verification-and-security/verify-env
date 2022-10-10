@@ -4,8 +4,8 @@ jobs:
         docker:
             - image: cimg/base:current
               auth:
-                  username: mydockerhub-user
-                  password: $DOCKERHUB_PASSWORD
+                  username: verifyusi
+                  password: $VERIFY_DOCKERHUB_PW
         steps:
             - checkout
             - setup_remote_docker:
@@ -17,15 +17,15 @@ jobs:
             - run:
                   name: publish current
                   command: |
-                      echo $DOCKERHUB_PASS |docker login -u $DOCKER_USER --password-stdin
+                      echo $VERIFY_DOCKERHUB_PW |docker login -u verifyusi --password-stdin
                       echo "docker push verifyusi/verify-env:current"
 
     build-starexec:
         docker:
             - image: cimg/base:current
               auth:
-                  username: mydockerhub-user
-                  password: $DOCKERHUB_PASSWORD
+                  username: verifyusi
+                  password: $VERIFY_DOCKERHUB_PW
         steps:
             - checkout
             - setup_remote_docker:
@@ -36,18 +36,22 @@ jobs:
             - run:
                   name: publish starexec
                   command: |
-                      echo $DOCKERHUB_PASS |docker login -u $DOCKER_USER --password-stdin
+                      echo $VERIFY_DOCKERHUB_PW |docker login -u verifyusi --password-stdin
                       echo "docker push verifyusi/verify-env:starexec"
 
 workflows:
     build-test:
         jobs:
           - build-current:
-            filters: &filters-build-test
-              tags:
-                only: /^v.*/
+              filters: &filters-build-test
+                tags:
+                  only: /^v.*/
+              context:
+                - verify-docker
           - build-starexec:
-            filters:
-              <<: *filters-build-test
+              filters:
+                <<: *filters-build-test
+              context:
+                - verify-docker
 
 
