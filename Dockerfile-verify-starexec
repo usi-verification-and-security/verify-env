@@ -5,7 +5,7 @@ RUN \
     && yum -y install bzip2 \
     && yum -y install centos-release-scl \
     && yum -y install Cython \
-    && yum -y install devtoolset-8 \
+    && yum -y install devtoolset-11 \
     && yum -y install git \
     && yum -y install glibc-static \
     && yum -y install gmp-devel \
@@ -19,7 +19,7 @@ RUN \
     && yum -y install zlib-devel \
     && pip3 install --upgrade pip \
     && pip3 install wheel \
-    && echo "pip3 install pyinstaller" |scl enable devtoolset-8 bash
+    && echo "pip3 install pyinstaller" |scl enable devtoolset-11 bash
 
 RUN pip3 install cmake
 
@@ -28,14 +28,14 @@ ENV FLEX_VERSION=2.6.4
 RUN wget --no-verbose "https://github.com/westes/flex/files/981163/flex-${FLEX_VERSION}.tar.gz" \
     && tar -xvzf flex-${FLEX_VERSION}.tar.gz \
     && cd flex-${FLEX_VERSION} \
-    && echo "./configure --prefix=/usr/local; make -j4; make install" | scl enable devtoolset-8 bash \
+    && echo "./configure --prefix=/usr/local; make -j4; make install" | scl enable devtoolset-11 bash \
     && cd .. \
     && rm -rf flex-${FLEX_VERSION} \
     && rm flex-${FLEX_VERSION}.tar.gz
 
 RUN echo "git clone --single-branch https://github.com/SMT-COMP/scrambler.git \
         && cd scrambler \
-        && make" | scl enable devtoolset-8 bash \
+        && make" | scl enable devtoolset-11 bash \
     && install ./scrambler/scrambler /usr/local/bin \
     && rm -rf scrambler
 
