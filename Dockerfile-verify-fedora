@@ -3,6 +3,7 @@ FROM fedora:latest
 RUN \
     yum -y groupinstall 'Development Tools' 'C Development Tools and Libraries' \
     && yum -y install \
+        cmake \
         bison \
         flex \
         git \
