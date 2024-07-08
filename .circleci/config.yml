@@ -20,7 +20,7 @@ jobs:
                       echo $VERIFY_DOCKERHUB_PW |docker login -u $VERIFY_DOCKERHUB_USER --password-stdin
                       docker push usiverify/verify-env:current
 
-    build-starexec:
+    build-fedora:
         docker:
             - image: cimg/base:current
               auth:
@@ -31,13 +31,13 @@ jobs:
             - setup_remote_docker:
                 docker_layer_caching: true
             - run:
-                  name: build starexec
-                  command: DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-starexec --rm -t usiverify/verify-env:starexec .
+                  name: build fedora
+                  command: DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-fedora --rm -t usiverify/verify-env:fedora .
             - run:
-                  name: publish starexec
+                  name: publish fedora
                   command: |
                       echo $VERIFY_DOCKERHUB_PW |docker login -u $VERIFY_DOCKERHUB_USER --password-stdin
-                      docker push usiverify/verify-env:starexec
+                      docker push usiverify/verify-env:fedora
 
 workflows:
     build-test:
@@ -48,10 +48,8 @@ workflows:
                   only: /^v.*/
               context:
                 - verify-docker
-          - build-starexec:
+          - build-fedora:
               filters:
                 <<: *filters-build-test
               context:
                 - verify-docker
-
-

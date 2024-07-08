@@ -1,0 +1,36 @@
+FROM fedora:latest
+
+RUN \
+    yum -y groupinstall 'Development Tools' 'C Development Tools and Libraries' \
+    && yum -y install \
+        bison \
+        flex \
+        git \
+        glibc-static \
+        libstdc++-static \
+        gmp-devel \
+        gmp-static \
+        libedit-devel \
+        python3.8 \
+        zlib-devel \
+        opam
+
+RUN opam init -y --disable-sandboxing \
+    && opam update -y \
+    && opam upgrade -y
+
+RUN git clone --single-branch https://github.com/Gbury/dolmen.git \
+    && cd dolmen \
+    && opam pin add -y . \
+    && opam install -y --deps-only . \
+    && eval $(opam env) \
+    && make \
+    && cd .. \
+    && rm -rf dolmen
+
+RUN git clone --single-branch https://github.com/SMT-COMP/scrambler.git \
+    && cd scrambler \
+    && make \
+    && cd .. \
+    && install ./scrambler/scrambler /usr/local/bin \
+    && rm -rf scrambler

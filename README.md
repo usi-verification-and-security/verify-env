@@ -15,15 +15,14 @@ To publish:
 docker push usiverify/verify-env:current
 ```
 
-## Starexec
+## Fedora
 
 To compile:
 ```
-DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-starexec --rm -t usiverify/verify-env:starexec .
+DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-fedora --rm -t usiverify/verify-env:fedora .
 ```
 
 To publish:
 ```
-docker push usiverify/verify-env:starexec
+docker push usiverify/verify-env:fedora
 ```
-
