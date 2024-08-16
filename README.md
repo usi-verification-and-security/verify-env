@@ -1,28 +1,18 @@
 # verify-env
 
-Docker files for building USI verification group CI images
+Docker files for building USI verification group CI images.
 
-## Current
+Use `docker.sh` script to build, push, or run an image.
 
-To compile:
-
+Example:
 ```
-DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-current --rm -t usiverify/verify-env:current .
-```
-
-To publish:
-```
-docker push usiverify/verify-env:current
+./docker.sh build current
+./docker.sh push current
 ```
 
-## Fedora
+Possible commands are `build`, `push` and `run`.
 
-To compile:
-```
-DOCKER_BUILDKIT=1 docker build -f Dockerfile-verify-fedora --rm -t usiverify/verify-env:fedora .
-```
+Possible images are `current`, `fedora` and `ubuntu`.
 
-To publish:
-```
-docker push usiverify/verify-env:fedora
-```
+Image `current` is based on `cimg/base:current` which is an image dedicated to CircleCI, making it well suitable for stable CI builds.
+However, as a consequence, this image does not provide the latest packages, which may cause troubles in cases such as using `clang-format` where some bugs are fixed only in the latest releases.
