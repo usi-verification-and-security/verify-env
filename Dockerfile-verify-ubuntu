@@ -1,0 +1,33 @@
+FROM ubuntu:latest
+
+RUN apt-get update \
+    && apt-get install -y \
+        bison \
+        clang \
+        clang-format \
+        cmake \
+        flex \
+        libedit-dev \
+        libgmp-dev \
+        opam \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN opam init -y --disable-sandboxing \
+    && opam update -y \
+    && opam upgrade -y
+
+RUN git clone --single-branch https://github.com/Gbury/dolmen.git \
+    && cd dolmen \
+    && opam pin add -y . \
+    && opam install -y --deps-only . \
+    && eval $(opam env) \
+    && make \
+    && cd .. \
+    && rm -rf dolmen
+
+RUN git clone --single-branch https://github.com/SMT-COMP/scrambler.git \
+    && cd scrambler \
+    && make \
+    && install scrambler /usr/local/bin \
+    && cd .. \
+    && rm -rf scrambler
