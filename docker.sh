@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CMDS=(build push run)
-IMAGES=(current fedora ubuntu)
+IMAGES=(current fedora ubuntu archlinux)
 
 function print_array {
   local -n ary=$1

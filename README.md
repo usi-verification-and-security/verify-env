@@ -12,7 +12,7 @@ Example:
 
 Possible commands are `build`, `push` and `run`.
 
-Possible images are `current`, `fedora` and `ubuntu`.
+Possible images are `current`, `fedora`, `ubuntu`, and `archlinux`.
 
 Image `current` is based on `cimg/base:current` which is an image dedicated to CircleCI, making it well suitable for stable CI builds.
 However, as a consequence, this image does not provide the latest packages, which may cause troubles in cases such as using `clang-format` where some bugs are fixed only in the latest releases.

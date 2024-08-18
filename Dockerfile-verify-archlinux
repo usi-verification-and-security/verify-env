@@ -1,0 +1,11 @@
+FROM archlinux:latest
+
+RUN pacman -Syyu --noconfirm \
+    clang \
+    make \
+    cmake \
+    git \
+    libedit \
+    bison \
+    flex \
+    gmp
